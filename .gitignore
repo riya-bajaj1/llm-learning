@@ -9,3 +9,5 @@ chroma_db/
 docs.pdf
 chunks.json
 chroma_db/
+results.json
+results_k4.json

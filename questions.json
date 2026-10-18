@@ -1,0 +1,17 @@
+[
+  {"question": "What is Locard's exchange principle?", "type": "single", "expected_pages": [38, 39]},
+  {"question": "What is dual-tool verification?", "type": "single", "expected_pages": [68, 59]},
+  {"question": "Who is the first responder in a criminal case and what are they responsible for?", "type": "single", "expected_pages": [55]},
+  {"question": "What is data carving?", "type": "single", "expected_pages": [224]},
+  {"question": "What is a forensic image?", "type": "single", "expected_pages": [188]},
+  {"question": "What is the difference between live and dead systems?", "type": "single", "expected_pages": [58]},
+  {"question": "What are the phases of the digital forensics process?", "type": "multi", "expected_pages": [52, 54, 61, 70, 76, 81]},
+  {"question": "How do cryptographic hashes support evidence integrity and the chain of custody?", "type": "multi", "expected_pages": [42, 59, 65]},
+  {"question": "What methods can be used to physically acquire data from mobile devices, such as chip-off and JTAG?", "type": "multi", "expected_pages": [252, 258, 259]},
+  {"question": "Why does the order of volatility matter when collecting evidence from live systems?", "type": "multi", "expected_pages": [58, 66]},
+  {"question": "How do I recover deleted files on a PlayStation?", "type": "none", "expected_pages": []},
+  {"question": "What is the maximum prison sentence for computer fraud in India?", "type": "none", "expected_pages": []},
+  {"question": "How do I install Kali Linux for penetration testing?", "type": "none", "expected_pages": []},
+  {"question": "who is playing cricket today?", "type": "none", "expected_pages": []},
+  {"question": "what is the healthiest breakfast?", "type": "none", "expected_pages": []}
+]
