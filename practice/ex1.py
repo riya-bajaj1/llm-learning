@@ -13,3 +13,13 @@ def grade(marks):
 print(grade([80, 70, 90]))
 print(grade([50, 45, 40]))
 print(grade([30, 20, 10]))
+
+
+
+
+
+
+
+
+
+
