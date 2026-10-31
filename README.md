@@ -63,6 +63,7 @@ Expected pages were chosen from the table of contents and checked against the PD
 | Embeddings only, top-4 chunks | 8 | 9 | 5 |
 | Embeddings only, top-8 chunks | 9 | 9 | 5 |
 | Hybrid (embeddings + keyword search), top-8 | 9 | 9 | 5 |
+| Hybrid, top-12 (tried after seeing the Q9 failure) | 9 | 9 | 5 |
 
 ### What the experiments showed
 
@@ -70,7 +71,7 @@ Expected pages were chosen from the table of contents and checked against the PD
 
 **Hybrid search gave no gain on this test set.** I added BM25 keyword search and combined it with the embedding search (reciprocal rank fusion). The score stayed at 9 of 10 and nothing broke. With only 15 questions, this means "no gain here", not "doesn't work".
 
-**Q9 is a case study in how the automatic check can mislead.** The question asks which methods can be used to physically acquire data from mobile devices (chip-off, JTAG). It fails the page check in all three setups, because the expected pages (252, 258, 259) are the detailed sections on chip-off and JTAG. Those detailed pages rank 31st to 102nd out of 1,579 chunks for this question, because the small embedding model matches general overview text better than technical detail. But the pages the search did return (244, 250, 260, 276) are overviews, and page 244 lists all five methods in one place (manual extraction, logical extraction, hex dumping/JTAG, chip-off, micro read). The hybrid-search answer is built on that page and reads correctly. So the expected pages were too narrow, and a page-match check is only a rough proxy for a correct answer. I left the test unchanged rather than editing it after seeing the results.
+**Q9 is a case study in how the automatic check can mislead.** The question asks which methods can be used to physically acquire data from mobile devices (chip-off, JTAG). It fails the page check in all three setups, because the expected pages (252, 258, 259) are the detailed sections on chip-off and JTAG. Those detailed pages rank 31st to 102nd out of 1,579 chunks for this question, because the small embedding model matches general overview text better than technical detail. But the pages the search did return (244, 250, 260, 276) are overviews, and page 244 lists all five methods in one place (manual extraction, logical extraction, hex dumping/JTAG, chip-off, micro read). The hybrid-search answer is built on that page and reads correctly. So the expected pages were too narrow, and a page-match check is only a rough proxy for a correct answer. I left the test unchanged rather than editing it after seeing the results. To check why the detailed pages ranked so low, I searched again with a query written in the book's own section-heading words ("chip-off in vitro acquisition JTAG in-system acquisition mobile device flash memory"). The detailed pages moved up a lot: page 252 from rank 31 to 3, page 259 from 64 to 11, page 258 from 53 to 13, and page 257 from 102 to 24. So the weak spot is the gap between how a person asks the question and how the book words the answer, not a broken search. I wrote that query after looking at the book, so it explains the cause but isn't a fix a real user could use. `rank_q9.py` reproduces both rankings.
 
 **Refusals needed both layers.** All five out-of-book questions were refused, but not always by the threshold. The PlayStation question scored 0.39, just under the 0.40 threshold. The question about computer fraud sentences in India scored 0.54 and passed the threshold, so it was the prompt rule that made the bot refuse. Neither layer alone would be enough.
 
@@ -86,6 +87,7 @@ Expected pages were chosen from the table of contents and checked against the PD
 
 ## Ideas for improvement
 
+- Rewrite the user's question into the book's vocabulary before searching, for example by asking the LLM to turn it into a keyword-style search query. This is the first thing I would try next, based on the Q9 experiment.
 - Remove page headers and footers, and split on sentences or paragraphs instead of a fixed length.
 - Try a larger embedding model or add a re-ranking step.
 - Add an automatic faithfulness check (does every sentence of the answer appear in the cited pages?) and a bigger test set.
